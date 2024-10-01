@@ -16,7 +16,6 @@ from homeassistant.const import (
     ATTR_ENTITY_ID,
     ATTR_TEMPERATURE,
     CONF_NAME,
-    CONF_UNIQUE_ID,
     EVENT_HOMEASSISTANT_START,
     PRECISION_HALVES,
     PRECISION_TENTHS,
@@ -83,7 +82,6 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         ),
         vol.Optional(CONF_COOLER): cv.entity_id,
         vol.Optional(CONF_HUMIDITY_SENSOR): cv.entity_id,
-        vol.Optional(CONF_UNIQUE_ID): cv.string,
     }
 )
 
@@ -110,7 +108,6 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     cooler_entity_id = config.get(CONF_COOLER)
     humidity_entity_id = config.get(CONF_HUMIDITY_SENSOR)
-    unique_id = config.get(CONF_UNIQUE_ID, "clim_thermostat_home")
 
     async_add_entities(
         [
@@ -130,8 +127,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
                 precision,
                 unit,
                 cooler_entity_id,
-                humidity_entity_id,
-                unique_id
+                humidity_entity_id
             )
         ]
     )
@@ -158,7 +154,6 @@ class GenericClimate(ClimateEntity, RestoreEntity):
         unit,
         cooler_entity_id,
         humidity_entity_id,
-        unique_id,
     ):
         """Initialize the thermostat."""
         self._name = name
@@ -197,7 +192,6 @@ class GenericClimate(ClimateEntity, RestoreEntity):
             )
         self._away_temp = away_temp
         self._is_away = False
-        self._attr_unique_id = unique_id
 
     async def async_added_to_hass(self):
         """Run when entity about to be added."""
