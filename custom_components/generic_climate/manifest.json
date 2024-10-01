@@ -5,6 +5,6 @@
   "documentation": "https://github.com/imohsenb/homeassistant-generic-climate",
   "dependencies": ["sensor", "switch"],
   "codeowners": [
-    "@imohsenb","@Erreur32"
+    "@imohsenb"
   ]
 }
